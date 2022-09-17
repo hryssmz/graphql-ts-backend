@@ -34,3 +34,16 @@ export const bookListApi = async (req: Request, res: Response) => {
   // HTTP 200: return book list sorted by title
   return res.json({ bookList });
 };
+
+export const bookDetailApi = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const [book, bookInstances] = await Promise.all([
+    prisma.book.findUnique({
+      where: { id },
+      include: { author: true, genres: true },
+    }),
+    prisma.bookInstance.findMany({ where: { bookId: id } }),
+  ]);
+  // HTTP 200: return book and all its copies
+  return res.json({ book, bookInstances });
+};
