@@ -1,4 +1,4 @@
-# memo
+# README
 
 ## 1. Setup
 
@@ -66,7 +66,7 @@ npm install @prisma/client
 npm install -D prisma
 ```
 
-### 1.3.3. HTTP errors
+#### 1.3.3. HTTP errors
 
 ---
 
@@ -75,7 +75,7 @@ npm install http-errors
 npm install -D @types/http-errors
 ```
 
-### 1.3.4. morgan
+#### 1.3.4. morgan
 
 ---
 
@@ -84,10 +84,18 @@ npm install morgan
 npm install -D @types/morgan
 ```
 
-### 1.3.5. dotenv
+#### 1.3.5. dotenv
 
 ---
 
 ```bash
 npm install dotenv
+```
+
+#### 1.3.6. Apollo Server
+
+---
+
+```bash
+npm install apollo-server-express apollo-server-core graphql
 ```
