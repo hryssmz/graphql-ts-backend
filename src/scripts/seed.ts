@@ -124,8 +124,8 @@ async function createBooks(
 async function createBookInstances(books: Book[]): Promise<BookInstance[]> {
   const bookInstancesData: BookInstanceData[] = [
     [books[0], "London Gollancz, 2014.", "Available", undefined],
-    [books[1], " Gollancz, 2011.", "Loaned", undefined],
-    [books[2], " Gollancz, 2015.", undefined, undefined],
+    [books[1], "Gollancz, 2011.", "Loaned", undefined],
+    [books[2], "Gollancz, 2015.", undefined, undefined],
     [
       books[3],
       "New York Tom Doherty Associates, 2016.",
@@ -171,8 +171,8 @@ async function createBookInstances(books: Book[]): Promise<BookInstance[]> {
         data: {
           bookId: tup[0].id,
           imprint: tup[1],
-          status: tup[2],
-          dueBack: tup[3] ? new Date(tup[3]) : undefined,
+          status: tup[2] ? tup[2] : "Maintenance",
+          dueBack: tup[3] ? new Date(tup[3]) : new Date(),
         },
       })
     )

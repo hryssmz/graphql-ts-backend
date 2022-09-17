@@ -18,19 +18,17 @@ export const indexApi = async (req: Request, res: Response) => {
   ]);
   // HTTP 200: return number of each record in the library
   return res.json({
-    data: {
-      bookCount,
-      bookInstanceCount,
-      bookInstanceAvailableCount,
-      authorCount,
-      genreCount,
-    },
+    bookCount,
+    bookInstanceCount,
+    bookInstanceAvailableCount,
+    authorCount,
+    genreCount,
   });
 };
 
 export const bookListApi = async (req: Request, res: Response) => {
   const bookList = await prisma.book.findMany({
-    select: { title: true, author: true },
+    select: { id: true, title: true, author: true },
     orderBy: { title: "asc" },
   });
   // HTTP 200: return book list sorted by title

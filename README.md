@@ -99,3 +99,12 @@ npm install dotenv
 ```bash
 npm install apollo-server-express apollo-server-core graphql
 ```
+
+#### 1.3.7. CORS
+
+---
+
+```bash
+npm install cors
+npm install -D @types/cors
+```
