@@ -1,6 +1,11 @@
 // apis/book.ts
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
+import type {
+  IndexApiData,
+  BookListApiData,
+  BookDetailApiData,
+} from "../utils/types";
 
 export const indexApi = async (req: Request, res: Response) => {
   const [
@@ -17,13 +22,14 @@ export const indexApi = async (req: Request, res: Response) => {
     prisma.genre.count(),
   ]);
   // HTTP 200: return number of each record in the library
-  return res.json({
+  const data: IndexApiData = {
     bookCount,
     bookInstanceCount,
     bookInstanceAvailableCount,
     authorCount,
     genreCount,
-  });
+  };
+  return res.json(data);
 };
 
 export const bookListApi = async (req: Request, res: Response) => {
@@ -32,18 +38,23 @@ export const bookListApi = async (req: Request, res: Response) => {
     orderBy: { title: "asc" },
   });
   // HTTP 200: return book list sorted by title
-  return res.json({ bookList });
+  const data: BookListApiData = { bookList };
+  return res.json(data);
 };
 
 export const bookDetailApi = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
   const [book, bookInstances] = await Promise.all([
     prisma.book.findUnique({
-      where: { id },
+      where: { id: req.params.id },
       include: { author: true, genres: true },
     }),
-    prisma.bookInstance.findMany({ where: { bookId: id } }),
+    prisma.bookInstance.findMany({ where: { bookId: req.params.id } }),
   ]);
+  if (book === null) {
+    // HTTP 404: book not found
+    return res.status(404).json("Book not found");
+  }
   // HTTP 200: return book and all its copies
-  return res.json({ book, bookInstances });
+  const data: BookDetailApiData = { book, bookInstances };
+  return res.json(data);
 };

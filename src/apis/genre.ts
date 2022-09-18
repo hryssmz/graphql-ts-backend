@@ -9,10 +9,11 @@ export const genreListApi = async (req: Request, res: Response) => {
 };
 
 export const genreDetailApi = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
   const [genre, genreBooks] = await Promise.all([
-    prisma.genre.findUnique({ where: { id } }),
-    prisma.book.findMany({ where: { genres: { some: { id } } } }),
+    prisma.genre.findUnique({ where: { id: req.params.id } }),
+    prisma.book.findMany({
+      where: { genres: { some: { id: req.params.id } } },
+    }),
   ]);
   // HTTP 200: return genre and all related books
   return res.json({ genre, genreBooks });

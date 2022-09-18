@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Author {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   firstName   String
   familyName  String
   dateOfBirth DateTime?
@@ -20,9 +20,9 @@ model Author {
 }
 
 model Book {
-  id            Int            @id @default(autoincrement())
+  id            String         @id @default(uuid())
   title         String
-  authorId      Int
+  authorId      String
   summary       String
   isbn          String
   author        Author         @relation(fields: [authorId], references: [id])
@@ -31,8 +31,8 @@ model Book {
 }
 
 model BookInstance {
-  id      Int       @id @default(autoincrement())
-  bookId  Int
+  id      String    @id @default(uuid())
+  bookId  String
   imprint String
   status  String?
   dueBack DateTime?
@@ -40,7 +40,7 @@ model BookInstance {
 }
 
 model Genre {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   name  String
   books Book[]
 }

@@ -1,21 +1,30 @@
 // apis/bookInstance.ts
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
+import type {
+  BookInstanceListApiData,
+  BookInstanceDetailApiData,
+} from "../utils/types";
 
 export const bookInstanceListApi = async (req: Request, res: Response) => {
   const bookInstanceList = await prisma.bookInstance.findMany({
     include: { book: true },
   });
   // HTTP 200: return book copy list
-  return res.json({ bookInstanceList });
+  const data: BookInstanceListApiData = { bookInstanceList };
+  return res.json(data);
 };
 
 export const bookInstanceDetailApi = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
   const bookInstance = await prisma.bookInstance.findUnique({
-    where: { id },
+    where: { id: req.params.id },
     include: { book: true },
   });
+  if (bookInstance === null) {
+    // HTTP 404: book copy not found
+    return res.status(404).json("Book copy not found");
+  }
   // HTTP 200: return book copy
-  return res.json({ bookInstance });
+  const data: BookInstanceDetailApiData = { bookInstance };
+  return res.json(data);
 };
